@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Gamers - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&family=Montserrat:wght@800&family=Georgia&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #000000;
+            --white: #FFFFFF;
+            --orange: #FF6600;
+            --gold: #FFD700;
+            --darkGrey: #1C1C1C;
+            --lightGrey: #F4F4F6;
+            --warmRed: #FF4500;
+            --platinum: #E5E4E2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--darkGrey);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+            background-image: 
+                linear-gradient(45deg, var(--lightGrey) 25%, transparent 25%), 
+                linear-gradient(-45deg, var(--lightGrey) 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, var(--lightGrey) 75%), 
+                linear-gradient(-45deg, transparent 75%, var(--lightGrey) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background-color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--orange), var(--gold));
+        }
+
+        .branding {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .branding h1 {
+            font-family: 'Poppins', 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--black);
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(255, 102, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .branding p {
+            color: var(--darkGrey);
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--darkGrey);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--lightGrey);
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(255, 102, 0, 0.2);
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--orange);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(255, 102, 0, 0.3);
+        }
+
+        .btn:hover {
+            background: linear-gradient(to right, var(--orange), var(--warmRed));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(255, 102, 0, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            color: var(--warmRed);
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: rgba(255, 69, 0, 0.1);
+            border-radius: 5px;
+            display: none;
+        }
+
+        .profile-section {
+            display: none;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-info {
+            background-color: var(--lightGrey);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--orange);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .user-info h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--black);
+            margin-bottom: 5px;
+            font-size: 1.8rem;
+        }
+
+        .note {
+            font-style: italic;
+            color: var(--darkGrey);
+            margin: 10px 0;
+            padding: 8px 12px;
+            background-color: rgba(255, 102, 0, 0.1);
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .info-row {
+            margin: 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: var(--black);
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: var(--darkGrey);
+        }
+
+        .token-section {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .token-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .red-token {
+            background-color: var(--warmRed);
+            color: var(--white);
+        }
+
+        .blue-token {
+            background-color: var(--darkGrey);
+            color: var(--white);
+        }
+
+        .token-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .progress-section {
+            margin: 25px 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: var(--lightGrey);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--orange), var(--gold));
+            border-radius: 10px;
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+            animation: scaleUp 0.3s ease-out;
+        }
+
+        @keyframes scaleUp {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--darkGrey);
+        }
+
+        .conversion-form {
+            margin-top: 20px;
+        }
+
+        .conversion-form input {
+            margin-bottom: 15px;
+        }
+
+        .conversion-btns {
+            display: flex;
+            gap: 10px;
+        }
+
+        .conversion-btns button {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .convert-btn {
+            background-color: var(--orange);
+            color: var(--white);
+        }
+
+        .withdraw-btn {
+            background-color: var(--darkGrey);
+            color: var(--white);
+        }
+
+        .logout-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: transparent;
+            color: var(--darkGrey);
+            border: 2px solid var(--darkGrey);
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--darkGrey);
+            color: var(--white);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--darkGrey);
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .branding h1 {
+                font-size: 2rem;
+            }
+            
+            .token-section {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div class="container" id="login-container">
+        <div class="branding">
+            <h1>SILENT GAMERS</h1>
+            <p>Enter your credentials to access your profile</p>
+        </div>
+        
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="btn">Login</button>
+        </form>
+        
+        <div class="error-message" id="error-message">
+            Invalid email or password. Please try again.
+        </div>
+    </div>
+
+    <!-- Profile Section -->
+    <div class="container profile-section" id="profile-container">
+        <div class="branding">
+            <h1>SILENT GAMERS</h1>
+        </div>
+        
+        <div class="user-info">
+            <h2 id="username">Username</h2>
+            <div class="note">You are now a silent gamer</div>
+            
+            <div class="info-row">
+                <div class="info-label">Game UID + Game Name</div>
+                <div class="info-value" id="game-info">Loading...</div>
+                <div class="note">You need to play with this account no other UID will be approved.</div>
+            </div>
+            
+            <div class="info-row">
+                <div class="info-label">Email</div>
+                <div class="info-value" id="user-email">Loading...</div>
+                <div class="note">You already verified this email. Mega tournament updates + esport announcements will be here.</div>
+            </div>
+            
+            <div class="info-row">
+                <div class="info-label">Instagram</div>
+                <div class="info-value" id="instagram">Loading...</div>
+                <div class="note">You need to follow us from this account. It is compulsory.</div>
+            </div>
+            
+            <div class="info-row">
+                <div class="info-label">Mobile Number</div>
+                <div class="info-value" id="mobile">Loading...</div>
+                <div class="note">Your number will be added to a community where all tournaments will be announced.</div>
+            </div>
+        </div>
+        
+        <div class="token-section">
+            <button class="token-btn red-token" id="red-token-btn">Red Token</button>
+            <button class="token-btn blue-token" id="blue-token-btn">Blue Token</button>
+        </div>
+        
+        <div class="progress-section">
+            <div class="progress-label">
+                <span>E-sport Points</span>
+                <span id="points-value">0/1000</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+        
+        <button class="logout-btn" id="logout-btn">Logout</button>
+    </div>
+
+    <!-- Red Token Modal -->
+    <div class="modal" id="red-token-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-red-modal">&times;</span>
+            <h2>Red Token Notice</h2>
+            <p>These tokens are entry fees for tournaments and events.</p>
+        </div>
+    </div>
+
+    <!-- Blue Token Modal -->
+    <div class="modal" id="blue-token-modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-blue-modal">&times;</span>
+            <h2>Blue Token Conversion</h2>
+            <p>Convert your blue tokens to red tokens or withdraw them.</p>
+            
+            <div class="conversion-form">
+                <input type="number" id="convert-amount" placeholder="Enter amount to convert" min="1">
+                <div class="conversion-btns">
+                    <button class="convert-btn" id="convert-btn">Convert to Red</button>
+                    <button class="withdraw-btn" id="withdraw-btn">Withdraw</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Google Apps Script URL - You need to create and deploy this
+        // Replace with your actual Apps Script URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGVdE4XzPH2P_9OTFWWsXV1JX0cEhjF9QkBuyl6Wiq8k52CFYdBqSobiF89tGCZwOz/exec';
+        
+        // DOM Elements
+        const loginContainer = document.getElementById('login-container');
+        const profileContainer = document.getElementById('profile-container');
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+        const redTokenBtn = document.getElementById('red-token-btn');
+        const blueTokenBtn = document.getElementById('blue-token-btn');
+        const redTokenModal = document.getElementById('red-token-modal');
+        const blueTokenModal = document.getElementById('blue-token-modal');
+        const closeRedModal = document.getElementById('close-red-modal');
+        const closeBlueModal = document.getElementById('close-blue-modal');
+        const convertBtn = document.getElementById('convert-btn');
+        const withdrawBtn = document.getElementById('withdraw-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        // Profile elements
+        const usernameEl = document.getElementById('username');
+        const gameInfoEl = document.getElementById('game-info');
+        const userEmailEl = document.getElementById('user-email');
+        const instagramEl = document.getElementById('instagram');
+        const mobileEl = document.getElementById('mobile');
+        const pointsValueEl = document.getElementById('points-value');
+        const progressFillEl = document.getElementById('progress-fill');
+        
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const userData = localStorage.getItem('silentGamerUser');
+            if (userData) {
+                displayProfile(JSON.parse(userData));
+            }
+        });
+        
+        // Login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Show loading state
+            const submitBtn = loginForm.querySelector('.btn');
+            submitBtn.textContent = 'Checking...';
+            submitBtn.disabled = true;
+            
+            // Call Google Apps Script to verify credentials
+            verifyCredentials(email, password);
+        });
+        
+        // Verify credentials with Google Sheets
+        function verifyCredentials(email, password) {
+            // Using Google Apps Script Web App to fetch data
+            fetch(SCRIPT_URL + `?action=login&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        localStorage.setItem('silentGamerUser', JSON.stringify(data.user));
+                        displayProfile(data.user);
+                    } else {
+                        showError();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showError();
+                })
+                .finally(() => {
+                    // Reset button
+                    const submitBtn = loginForm.querySelector('.btn');
+                    submitBtn.textContent = 'Login';
+                    submitBtn.disabled = false;
+                });
+        }
+        
+        // Display user profile
+        function displayProfile(user) {
+            loginContainer.style.display = 'none';
+            profileContainer.style.display = 'block';
+            
+            // Populate profile data from Google Sheet
+            usernameEl.textContent = user.Username || 'N/A';
+            gameInfoEl.textContent = `${user["Game UID"] || 'N/A'} - ${user["Game Name"] || 'N/A'}`;
+            userEmailEl.textContent = user.Email || 'N/A';
+            instagramEl.textContent = user.Instagram || 'N/A';
+            mobileEl.textContent = user["Mobile Number"] || 'N/A';
+            
+            // Update progress bar
+            const points = parseInt(user["E-sport Points"]) || 0;
+            const progressPercentage = Math.min((points / 1000) * 100, 100);
+            pointsValueEl.textContent = `${points}/1000`;
+            setTimeout(() => {
+                progressFillEl.style.width = `${progressPercentage}%`;
+            }, 100);
+            
+            // Update token buttons with actual data
+            redTokenBtn.textContent = `Red Token (${user["Red Token"] || '0'})`;
+            blueTokenBtn.textContent = `Blue Token (${user["Blue Token"] || '0'})`;
+        }
+        
+        // Show error message
+        function showError() {
+            errorMessage.style.display = 'block';
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Token button event listeners
+        redTokenBtn.addEventListener('click', function() {
+            redTokenModal.style.display = 'flex';
+        });
+        
+        blueTokenBtn.addEventListener('click', function() {
+            blueTokenModal.style.display = 'flex';
+        });
+        
+        // Close modal event listeners
+        closeRedModal.addEventListener('click', function() {
+            redTokenModal.style.display = 'none';
+        });
+        
+        closeBlueModal.addEventListener('click', function() {
+            blueTokenModal.style.display = 'none';
+        });
+        
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target === redTokenModal) {
+                redTokenModal.style.display = 'none';
+            }
+            if (e.target === blueTokenModal) {
+                blueTokenModal.style.display = 'none';
+            }
+        });
+        
+        // Convert blue tokens to red tokens
+        convertBtn.addEventListener('click', function() {
+            const amount = document.getElementById('convert-amount').value;
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid amount");
+                return;
+            }
+            
+            // Get current user data
+            const userData = JSON.parse(localStorage.getItem('silentGamerUser'));
+            const currentBlueTokens = parseInt(userData["Blue Token"]) || 0;
+            
+            if (amount > currentBlueTokens) {
+                alert("You don't have enough blue tokens");
+                return;
+            }
+            
+            // In a real implementation, you would update this in your Google Sheet
+            alert(`Converting ${amount} blue tokens to red tokens`);
+            blueTokenModal.style.display = 'none';
+            document.getElementById('convert-amount').value = '';
+            
+            // Update local storage (in real app, this would update the sheet)
+            userData["Blue Token"] = (currentBlueTokens - amount).toString();
+            userData["Red Token"] = (parseInt(userData["Red Token"] || 0) + amount).toString();
+            localStorage.setItem('silentGamerUser', JSON.stringify(userData));
+            
+            // Update UI
+            redTokenBtn.textContent = `Red Token (${userData["Red Token"]})`;
+            blueTokenBtn.textContent = `Blue Token (${userData["Blue Token"]})`;
+        });
+        
+        // Withdraw blue tokens
+        withdrawBtn.addEventListener('click', function() {
+            // In a real implementation, you would send this to your backend
+            alert("Withdrawing blue tokens. Contract top up management and your blue token convert into money in just 1 minute.");
+            blueTokenModal.style.display = 'none';
+        });
+        
+        // Logout
+        logoutBtn.addEventListener('click', function() {
+            localStorage.removeItem('silentGamerUser');
+            profileContainer.style.display = 'none';
+            loginContainer.style.display = 'block';
+            loginForm.reset();
+        });
+    </script>
+</body>
+</html>
