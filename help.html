@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Gamers - Emergency Support</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Color & Theme Variables --- */
+        :root {
+            --background-color: #0a0a0a;
+            --z-grey: #1a1a1a;
+            --orange: #ff8c00;
+            --orange-glow: rgba(255, 140, 0, 0.6);
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.6);
+            --yellow: #f0e68c;
+            --text-white: #f0f0f0;
+            --glass-bg: rgba(26, 26, 26, 0.6); /* Z Grey with transparency */
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- Global & Reset Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-white);
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://ik.imagekit.io/silentgamers/Picsart_25-09-23_05-35-36-905.jpg?updatedAt=1758585972484&ik-s=501e4b88eeb6d5cead71bcd478e25e634973d3c8');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            z-index: -1;
+            filter: brightness(0.4); /* Darken the background to make text readable */
+        }
+        
+        /* --- Page Load Animation --- */
+        body {
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+        }
+        body.loaded {
+            opacity: 1;
+        }
+
+        /* --- Sticky Header --- */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 12px 5%;
+            z-index: 100;
+            
+            /* Liquid Glass Effect */
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+
+            /* Flexbox for layout */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sticky-header .logo {
+            height: 45px;
+            transition: transform 0.3s ease;
+        }
+        .sticky-header .logo:hover {
+            transform: scale(1.1);
+        }
+
+        .sticky-header .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--gold-glow);
+            text-align: center;
+        }
+
+        .sticky-header .profile-icon {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .sticky-header .profile-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        /* --- Main Content --- */
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 70px); /* Adjust based on header height */
+            padding: 40px 20px;
+        }
+
+        .support-box {
+            width: 100%;
+            max-width: 450px;
+            padding: 30px;
+            text-align: center;
+            
+            /* Liquid Glass Effect */
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        .support-box .headline {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--orange);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* --- Solid Black Horizontal Bar --- */
+        .divider {
+            height: 2px;
+            width: 50px;
+            background-color: #000;
+            border: none;
+            margin: 20px auto;
+        }
+
+        /* --- Buttons --- */
+        .action-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border: none;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease-out, box-shadow 0.3s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button:hover, .action-button:focus {
+            transform: translateY(-5px);
+        }
+
+        .btn-whatsapp {
+            background-color: var(--orange);
+            color: var(--background-color);
+        }
+        .btn-whatsapp:hover, .btn-whatsapp:focus {
+            box-shadow: 0 0 20px 5px var(--orange-glow);
+        }
+
+        .btn-call {
+            background-color: var(--gold);
+            color: var(--background-color);
+        }
+        .btn-call:hover, .btn-call:focus {
+            box-shadow: 0 0 20px 5px var(--gold-glow);
+        }
+        
+        /* --- Footer Image --- */
+        .footer-image {
+            width: 100%;
+            max-width: 250px;
+            margin-top: 25px;
+            border-radius: 15px;
+            opacity: 0.9;
+        }
+        
+        /* --- Responsive Adjustments for larger screens --- */
+        @media (min-width: 768px) {
+            .sticky-header .brand-name {
+                font-size: 2rem;
+            }
+            .support-box {
+                padding: 40px;
+            }
+        }
+
+    </style>
+</head>
+<body class="">
+
+    <!-- Sticky Top Header -->
+    <header class="sticky-header">
+        <a href="#"> <!-- Optional: Link logo to homepage -->
+            <img src="https://ik.imagekit.io/silentgamers/Picsart_25-09-22_00-09-34-964.png?updatedAt=1758480146212&ik-s=4f744f417100daea8710c3389638e583c2987985" alt="Silent Gamers Logo" class="logo">
+        </a>
+        <h1 class="brand-name">SILENT GAMERS</h1>
+        <a href="https://silentgaminghub8-web.github.io/silent.gamers-web.github.io/userdashboard.html">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg" alt="User Profile" class="profile-icon">
+        </a>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+        <div class="support-box">
+            
+            <h2 class="headline">Emergency Support</h2>
+            
+            <hr class="divider">
+            
+            <!-- WhatsApp Button -->
+            <a 
+                href="https://wa.me/7078343501?text=Hii%20I%20need%20help" 
+                target="_blank" 
+                class="action-button btn-whatsapp">
+                Chat Help Center
+            </a>
+            
+            <!-- Call Button -->
+            <a 
+                href="tel:7078343501" 
+                class="action-button btn-call">
+                Call for Help
+            </a>
+            
+            <img src="https://ik.imagekit.io/silentgamers/Picsart_25-09-23_05-16-07-573.jpg?updatedAt=1758584798495&ik-s=edc43a9e32ff2f3f58c4589fbab6324ae7eafb74" alt="Support Graphic" class="footer-image">
+            
+        </div>
+    </main>
+
+    <script>
+        // Simple script for the fade-in animation on page load
+        window.onload = () => {
+            document.body.classList.add('loaded');
+        };
+    </script>
+
+</body>
+</html>
