@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Gamers</title>
+    <!-- Google Fonts for a modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- 1. General Setup & Theme --- */
+        :root {
+            --dark-grey: #1a1a1a;
+            --solid-black: #000000;
+            --off-white: #f4f4f4;
+            --primary-orange: #ff6600;
+            --glow-gold: #ffd700;
+            --z-grey: #2c2c2c;
+            --glass-bg: rgba(25, 25, 25, 0.5);
+            --font-primary: 'Orbitron', sans-serif; /* For headings */
+            --font-secondary: 'Poppins', sans-serif; /* For body text */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-secondary);
+            background-color: var(--dark-grey);
+            background-image: linear-gradient(135deg, var(--dark-grey) 0%, #111111 100%);
+            color: var(--off-white);
+            overflow-x: hidden; /* Prevents horizontal scroll */
+        }
+
+        /* --- 2. Sticky-Top Header --- */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 5%;
+            z-index: 1000;
+            
+            /* Liquid Glass Effect */
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px); /* For Safari */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo img {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .branding {
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--off-white);
+            text-shadow: 0 0 10px var(--primary-orange);
+            animation: flicker 3s infinite alternate;
+        }
+
+        .profile-icon a {
+            font-size: 2rem;
+            color: var(--off-white);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .profile-icon a:hover {
+            color: var(--glow-gold);
+            text-shadow: 0 0 15px var(--glow-gold);
+        }
+
+        /* --- 3. Horizontal Navigation Bar --- */
+        .nav-bar {
+            background-color: var(--solid-black);
+            padding: 10px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-list a {
+            color: var(--off-white);
+            text-decoration: none;
+            font-family: var(--font-primary);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        .nav-list a .fa-solid {
+            font-size: 1.5rem;
+        }
+
+        .nav-list a:hover, .nav-list a:focus {
+            color: var(--glow-gold);
+            text-shadow: 0 0 15px var(--glow-gold);
+        }
+
+        /* --- 4. Big & Special Sign Up Button --- */
+        .signup-section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .signup-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            font-family: var(--font-primary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--solid-black);
+            background: linear-gradient(45deg, var(--primary-orange), var(--glow-gold));
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .signup-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .signup-btn:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 0 25px var(--primary-orange), 0 0 40px var(--glow-gold);
+        }
+
+        .signup-btn:hover::before {
+            left: 100%;
+        }
+
+        /* --- 5. Content Boxes Grid --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            
+            /* Liquid Glass Effect */
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            
+            /* Animation Setup */
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px var(--primary-orange);
+        }
+
+        .card-photo-container {
+            position: relative;
+            height: 350px;
+        }
+
+        .card-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        
+        .card:hover .card-photo {
+            transform: scale(1.1);
+        }
+
+        .card-title {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--off-white);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-family: var(--font-primary);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        .card-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .checkout-btn {
+            display: inline-block;
+            padding: 10px 30px;
+            background-color: var(--primary-orange);
+            color: var(--solid-black);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            background-color: var(--glow-gold);
+            box-shadow: 0 0 15px var(--glow-gold);
+            transform: scale(1.05);
+        }
+        
+        /* --- Animations --- */
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                0 0 4px #fff,
+                0 0 11px var(--primary-orange),
+                0 0 19px var(--primary-orange),
+                0 0 40px var(--primary-orange);
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 600px) {
+            .branding {
+                font-size: 1.1rem; /* Smaller branding on small screens */
+            }
+            
+            .logo img {
+                height: 35px;
+            }
+            
+            .profile-icon a {
+                font-size: 1.7rem;
+            }
+
+            .signup-btn {
+                font-size: 1.2rem;
+                padding: 12px 30px;
+            }
+
+            .card-grid {
+                padding: 15px;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Sticky-Top Header -->
+    <header class="sticky-header">
+        <div class="logo">
+            <a href="#">
+                <img src="https://ik.imagekit.io/silentgamers/Picsart_25-09-22_00-09-34-964.png?updatedAt=1758480146212&ik-s=4f744f417100daea8710c3389638e583c2987985" alt="Silent Gamers Logo">
+            </a>
+        </div>
+        <div class="branding">
+            SILENT GAMERS
+        </div>
+        <div class="profile-icon">
+            <a href="userdashboard.html" aria-label="User Profile">
+                <i class="fas fa-user-circle"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. Horizontal Navigation Bar -->
+    <nav class="nav-bar">
+        <ul class="nav-list">
+            <li>
+                <a href="index.html">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://silentgaminghub8-web.github.io/silent.gamers-web.github.io/index.html">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <span>Information</span>
+                </a>
+            </li>
+            <li>
+                <a href="redtoken.html">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Shop</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- 3. Big & Special Sign Up Button -->
+        <section class="signup-section">
+            <a href="signin.html" class="signup-btn">Join The Hub</a>
+        </section>
+
+        <!-- 4. Content Boxes Grid -->
+        <section class="card-grid">
+            <!-- Card 1: CEO -->
+            <div class="card">
+                <div class="card-photo-container">
+                    <span class="card-title">CEO</span>
+                    <img class="card-photo" src="https://ik.imagekit.io/silentgamers/Picsart_25-09-22_00-09-34-964.png?updatedAt=1758480146212&ik-s=4f744f417100daea8710c3389638e583c2987985" alt="CEO">
+                </div>
+                <div class="card-content">
+                    <a href="ceo.html" class="checkout-btn">Check Out</a>
+                </div>
+            </div>
+
+            <!-- Card 2: COO -->
+            <div class="card">
+                <div class="card-photo-container">
+                    <span class="card-title">COO</span>
+                    <img class="card-photo" src="https://ik.imagekit.io/silentgamers/Picsart_25-09-22_00-08-50-059.png?updatedAt=1758480147249&ik-s=e6f0f6cba9400af3e85c492cd83c0fdff24c609a" alt="COO">
+                </div>
+                <div class="card-content">
+                    <a href="coo.html" class="checkout-btn">Check Out</a>
+                </div>
+            </div>
+
+            <!-- Card 3: Management -->
+            <div class="card">
+                <div class="card-photo-container">
+                    <span class="card-title">Management</span>
+                    <img class="card-photo" src="https://ik.imagekit.io/silentgamers/Picsart_25-09-19_15-31-17-146.png?updatedAt=1758287986435&ik-s=23653aba2089e2b8b429f7ba42200901313377b5" alt="Management">
+                </div>
+                <div class="card-content">
+                    <a href="roshi.html" class="checkout-btn">Check Out</a>
+                </div>
+            </div>
+
+            <!-- Card 4: Anti-Hack -->
+            <div class="card">
+                <div class="card-photo-container">
+                    <span class="card-title">Anti-Hack</span>
+                    <img class="card-photo" src="https://ik.imagekit.io/silentgamers/Picsart_25-09-19_15-29-08-757.png?updatedAt=1758287986342&ik-s=cfc5e77106f7274d3586eeddde2ddf397728da0f" alt="Anti-Hack">
+                </div>
+                <div class="card-content">
+                    <a href="boo.html" class="checkout-btn">Check Out</a>
+                </div>
+            </div>
+            
+            <!-- Card 5: E-Sport -->
+            <div class="card">
+                <div class="card-photo-container">
+                    <span class="card-title">E-Sport</span>
+                    <img class="card-photo" src="https://ik.imagekit.io/silentgamers/Picsart_25-09-18_02-49-16-996.jpg?updatedAt=1758210646096&ik-s=27b563dd19b086b5a19cb5c89f8b3c2253c469e6" alt="E-Sport">
+                </div>
+                <div class="card-content">
+                    <a href="goku.html" class="checkout-btn">Check Out</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // This simple script adds an attractive fade-in animation to the cards as they appear.
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        // Apply a staggered delay for a nice effect
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 100);
+                        observer.unobserve(entry.target); // Stop observing once it's visible
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the card is visible
+            });
+
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+
+</body>
+</html>
