@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SILENT GAMERS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Global Styles & Theme --- */
+        :root {
+            --bg-color: #0d0d0d;
+            --dark-grey: #1a1a1a;
+            --primary-orange: #ff8c00;
+            --gold: #ffd700;
+            --text-light: #f0f0f0;
+            --text-dark: #111;
+            --glow-color-orange: rgba(255, 140, 0, 0.7);
+            --glow-color-gold: rgba(255, 215, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            overflow-x: hidden;
+        }
+
+        /* --- Header --- */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            /* Liquid Glass Effect */
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 5%;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-left img {
+            height: 45px;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-right svg {
+            height: 40px; /* Adjusted size for SVG */
+            width: 40px;
+            fill: var(--text-light); /* White color */
+            filter: drop-shadow(0 0 6px var(--glow-color-gold)); /* Subtle Glow */
+            transition: all 0.3s ease;
+        }
+
+        .logo-left img:hover {
+            transform: scale(1.1);
+        }
+
+        .logo-right a:hover svg {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 12px var(--gold)); /* More intense glow on hover */
+        }
+
+        .branding-middle h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--glow-color-gold), 0 0 5px var(--primary-orange);
+            animation: flicker 3s infinite alternate;
+        }
+
+        /* --- Main Content & Banner --- */
+        main {
+            padding: 20px 15px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .banner-container {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border: 2px solid var(--dark-grey);
+        }
+
+        .main-banner {
+            width: 100%;
+            display: block;
+        }
+
+        /* --- Buttons --- */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .action-button {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 18px 25px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            background: var(--primary-orange);
+            color: var(--text-dark);
+            box-shadow: 0 0 10px var(--glow-color-orange), 0 0 20px var(--glow-color-orange);
+        }
+
+        .action-button.power {
+            background: var(--gold);
+            color: var(--text-dark);
+            box-shadow: 0 0 10px var(--glow-color-gold), 0 0 20px var(--glow-color-gold);
+        }
+
+        .action-button:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 15px var(--glow-color-orange), 0 0 30px var(--glow-color-orange);
+        }
+
+        .action-button.power:hover {
+            box-shadow: 0 0 15px var(--glow-color-gold), 0 0 30px var(--glow-color-gold);
+        }
+
+        /* --- Modal (Pop-up) Styles --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: rgba(30, 30, 30, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            width: 90%;
+            max-width: 450px;
+        }
+
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--primary-orange);
+            text-decoration: none;
+        }
+
+        .modal-media {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 2px solid var(--dark-grey);
+        }
+
+        .modal-note {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            color: var(--text-light);
+        }
+
+        .large-note {
+            font-size: 1.2rem;
+            padding: 20px 0;
+        }
+
+        .modal-start-button {
+            display: inline-block;
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 15px 40px;
+            border-radius: 10px;
+            background: var(--primary-orange);
+            color: var(--text-dark);
+            box-shadow: 0 0 10px var(--glow-color-orange);
+            transition: all 0.3s ease;
+        }
+
+        .modal-start-button.power {
+            background: var(--gold);
+            box-shadow: 0 0 10px var(--glow-color-gold);
+        }
+
+        .modal-start-button:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes animate-zoom {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .animate-zoom {
+            animation: animate-zoom 0.4s;
+        }
+
+        @keyframes flicker {
+            0%, 100% { text-shadow: 0 0 10px var(--glow-color-gold), 0 0 5px var(--primary-orange); }
+            50% { text-shadow: 0 0 15px var(--glow-color-gold), 0 0 8px var(--primary-orange); }
+        }
+
+        /* --- Media Queries for smaller screens --- */
+        @media (max-width: 480px) {
+            .branding-middle h1 {
+                font-size: 1.2rem;
+            }
+            .logo-left img {
+                height: 40px;
+            }
+            .logo-right svg {
+                height: 35px;
+                width: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky-Top Header -->
+    <header class="sticky-header">
+        <div class="header-content">
+            <div class="logo-left">
+                <img src="https://ik.imagekit.io/silentgamers/Picsart_25-09-22_00-09-34-964.png?updatedAt=1758480146212&ik-s=4f744f417100daea8710c3389638e583c2987985" alt="Brand Logo">
+            </div>
+            <div class="branding-middle">
+                <h1>SILENT GAMERS</h1>
+            </div>
+            <div class="logo-right">
+                <a href="https://silentgaminghub8-web.github.io/silent.gamers-web.github.io/userdashboard.html" title="User Profile">
+                    <!-- NEW SVG PROFILE ICON -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="banner-container">
+            <img src="https://ik.imagekit.io/silentgamers/SILENT_20251003_221351_0000.png?updatedAt=1759509913373&ik-s=cb4c5eae95a6875aebd044eb130081992ac1feb3" alt="Main Banner" class="main-banner">
+        </div>
+        
+        <div class="button-container">
+            <button id="normalTournamentBtn" class="action-button">NORMAL TOURNAMENT START</button>
+            <button id="powerTournamentBtn" class="action-button power">POWER TOURNAMENT START</button>
+        </div>
+    </main>
+    
+    <!-- Modal for Normal Tournament -->
+    <div id="normalModal" class="modal">
+        <div class="modal-content animate-zoom">
+            <span class="close-button">&times;</span>
+            <img src="https://ik.imagekit.io/silentgamers/20250919_231556_0001.gif?updatedAt=1759331804906&ik-s=64297eb0d60858384283c277acca7f89ccbf0297" alt="Tournament GIF" class="modal-media">
+            <p class="modal-note">Bhai agar tournament join ki hai tab he start karna.</p>
+            <a href="https://silentgaminghub8-web.github.io/silent.gamers-web.github.io/starttournament.html" class="modal-start-button">START</a>
+        </div>
+    </div>
+
+    <!-- Modal for Power Tournament -->
+    <div id="powerModal" class="modal">
+        <div class="modal-content animate-zoom">
+            <span class="close-button">&times;</span>
+            
+            <!-- This content shows BEFORE Jan 1, 2026 -->
+            <div id="powerModalBefore">
+                <p class="modal-note large-note">Join tournament first, because after you join a power tournament, you get a timer. When the timer ends, your link will automatically appear here.</p>
+            </div>
+            
+            <!-- This content shows ON/AFTER Jan 1, 2026 -->
+            <div id="powerModalAfter" style="display: none;">
+                 <img src="https://ik.imagekit.io/silentgamers/Picsart_25-09-18_02-49-16-996.jpg?updatedAt=1758210646096&ik-s=27b563dd19b086b5a19cb5c89f8b3c2253c469e6" alt="Power Tournament Prize" class="modal-media">
+                 <p class="modal-note">Bhai customer care sa baat kar k address update kara lena for cash prizepool.</p>
+                 <a href="https://silentgaminghub8-web.github.io/silent.gamers-web.github.io/powertournament.html" class="modal-start-button power">START</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const normalTournamentBtn = document.getElementById('normalTournamentBtn');
+            const normalModal = document.getElementById('normalModal');
+            const powerTournamentBtn = document.getElementById('powerTournamentBtn');
+            const powerModal = document.getElementById('powerModal');
+            const powerModalBefore = document.getElementById('powerModalBefore');
+            const powerModalAfter = document.getElementById('powerModalAfter');
+            const closeButtons = document.querySelectorAll('.close-button');
+
+            normalTournamentBtn.addEventListener('click', () => {
+                normalModal.style.display = 'flex';
+            });
+
+            powerTournamentBtn.addEventListener('click', () => {
+                const targetDate = new Date('2026-01-01T00:00:00');
+                const now = new Date();
+
+                if (now < targetDate) {
+                    powerModalBefore.style.display = 'block';
+                    powerModalAfter.style.display = 'none';
+                } else {
+                    powerModalBefore.style.display = 'none';
+                    powerModalAfter.style.display = 'block';
+                }
+                powerModal.style.display = 'flex';
+            });
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    button.closest('.modal').style.display = 'none';
+                });
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
