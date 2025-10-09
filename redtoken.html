@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Gamers Shop</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- QR Code Generator Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+    <style>
+        /* --- 🎨 THEME & GLOBAL STYLES --- */
+        :root {
+            --black: #0a0a0a;
+            --z-grey: #1a1a1a;
+            --white: #ffffff;
+            --little-white: rgba(255, 255, 255, 0.8);
+            --orange: #ff6600;
+            --gold: #FFD700;
+            --yellow-glow: rgba(255, 223, 0, 0.5);
+            --white-glow: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(30, 30, 30, 0.5);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* --- ✨ LIQUID GLASS & GLOW EFFECTS --- */
+        .liquid-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .gold-text-glow {
+            color: var(--gold);
+            font-weight: bold;
+            text-shadow: 0 0 8px var(--yellow-glow), 0 0 12px var(--orange);
+        }
+        
+        /* --- 📱 HEADER --- */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            z-index: 1000;
+            transition: background 0.3s ease;
+        }
+
+        .sticky-header.scrolled {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            height: 45px;
+            width: 45px;
+        }
+
+        .branding-text {
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .profile-icon a {
+            display: block;
+        }
+
+        .profile-icon img {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-icon img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--yellow-glow);
+        }
+
+        /* --- 🧩 MAIN SECTION --- */
+        .main-container {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .gif-banner {
+            width: 100%;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .main-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--white-glow), 0 0 20px var(--yellow-glow);
+        }
+
+        .shop-box {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* Selection Bar */
+        .selection-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--black);
+            padding: 8px;
+            border-radius: 12px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            background-color: transparent;
+            color: var(--little-white);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background-color: var(--z-grey);
+            color: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 15px var(--yellow-glow);
+        }
+        
+        .display-image-container {
+            text-align: center;
+        }
+        
+        .display-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        /* Input & Price */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            color: var(--little-white);
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--z-grey);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1rem;
+            font-family: 'Poppins', sans-serif;
+            -moz-appearance: textfield; /* Firefox */
+        }
+        
+        .input-field::-webkit-outer-spin-button,
+        .input-field::-webkit-inner-spin-button {
+            -webkit-appearance: none; /* Safari and Chrome */
+            margin: 0;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--orange);
+            box-shadow: 0 0 10px var(--orange);
+        }
+        
+        #price-display {
+            font-weight: bold;
+            color: var(--gold);
+            background-color: #111;
+        }
+        
+        /* Purchase Button */
+        .purchase-btn {
+            padding: 15px;
+            width: 100%;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            color: var(--black);
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.4);
+        }
+        
+        .purchase-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+        }
+
+        /* --- 💰 PURCHASE MODAL --- */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .modal-content {
+            position: relative;
+            margin: 15% auto;
+            padding: 25px;
+            width: 90%;
+            max-width: 400px;
+            animation: slideIn 0.5s ease;
+        }
+
+        .close-btn {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .close-btn:hover {
+            color: var(--white);
+        }
+        
+        #qrcode {
+            margin: 10px auto 25px auto;
+            padding: 10px;
+            background-color: white;
+            border-radius: 10px;
+            width: fit-content;
+        }
+        
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .modal-form .input-group {
+            width: 100%;
+        }
+
+        .action-btn {
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #payment-done-btn {
+            background-color: var(--orange);
+            color: var(--white);
+        }
+        
+        #confirm-purchase-btn {
+            background: linear-gradient(45deg, var(--gold), var(--orange));
+            color: var(--black);
+            font-weight: 700;
+        }
+        
+        #confirm-purchase-btn:disabled {
+             background: var(--z-grey);
+             color: #666;
+             cursor: not-allowed;
+        }
+
+        #transaction-id-group {
+            display: none; /* Initially hidden */
+        }
+        
+        /* --- ✨ ANIMATIONS --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 📱 STICKY HEADER -->
+    <header class="sticky-header" id="header">
+        <div class="logo-container">
+            <img src="https://ik.imagekit.io/silentgamers/Picsart_25-09-22_00-09-34-964.png?updatedAt=1758480146212&ik-s=4f744f417100daea8710c3389638e583c2987985" alt="Silent Gamers Logo" class="logo">
+        </div>
+        <div class="branding-text gold-text-glow">
+            SILENT GAMERS
+        </div>
+        <div class="profile-icon">
+            <a href="https://silentgaminghub8-web.github.io/silent.gamers-web.github.io/userdashboard.html">
+                <!-- Using a placeholder icon as the original link was broken. Replace src if needed. -->
+                <img src="https://i.ibb.co/6yT4c15/user-icon.png" alt="User Profile">
+            </a>
+        </div>
+    </header>
+
+    <!-- 🧩 MAIN SECTION -->
+    <main class="main-container">
+
+        <!-- GIF Banner -->
+        <img src="https://ik.imagekit.io/silentgamers/SILENT_20251009_101656_0001.gif?updatedAt=1759985285381&ik-s=3b5fbfe6a0af75ddda5fce07ff461221707bb628" alt="Gaming Banner" class="gif-banner">
+
+        <!-- Main Title -->
+        <h1 class="main-title">SILENTGAMERS SHOP</h1>
+        
+        <!-- Shop Interaction Box -->
+        <div class="shop-box liquid-glass">
+            
+            <!-- Selection Bar -->
+            <div class="selection-bar">
+                <button class="toggle-btn active" data-type="Red Token">Red Token</button>
+                <button class="toggle-btn" data-type="Power Coin">Power Coin</button>
+            </div>
+
+            <!-- Image Display -->
+            <div class="display-image-container">
+                <img id="display-image" src="https://ik.imagekit.io/silentgamers/SILENT_20251009_102511_0002.png?updatedAt=1759985846610&ik-s=070080d364708ce729439090817a1cba4ac31098" alt="Red Token" class="display-image">
+            </div>
+            
+            <!-- Solid Black Horizontal Bar -->
+            <hr style="border: none; height: 2px; background-color: black; margin: 10px 0;">
+
+            <!-- Quantity Input -->
+            <div class="input-group">
+                <label for="quantity-input">Enter Quantity</label>
+                <input type="number" id="quantity-input" class="input-field" min="50" max="5000" placeholder="50 - 5000">
+            </div>
+
+            <!-- Auto Price Display -->
+            <div class="input-group">
+                <label for="price-display">Total Price</label>
+                <input type="text" id="price-display" class="input-field" value="₹0" readonly>
+            </div>
+
+            <!-- Purchase Button -->
+            <button id="purchase-btn" class="purchase-btn">PURCHASE</button>
+        </div>
+
+    </main>
+    
+    <!-- 💰 PURCHASE POPUP MODAL -->
+    <div id="purchase-modal" class="modal">
+        <div class="modal-content liquid-glass">
+            <span class="close-btn">&times;</span>
+            <h2 style="text-align: center; margin-bottom: 15px;" class="gold-text-glow">Complete Payment</h2>
+            
+            <!-- QR Code will be generated here -->
+            <div id="qrcode"></div>
+            
+            <form class="modal-form" id="purchase-form">
+                <div class="input-group">
+                    <label for="game-uid">Game UID</label>
+                    <input type="text" id="game-uid" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label for="mobile-number">Mobile Number</label>
+                    <input type="tel" id="mobile-number" class="input-field" inputmode="numeric" required>
+                </div>
+                <div class="input-group">
+                    <label for="upi-id">Your UPI ID</label>
+                    <input type="text" id="upi-id" class="input-field" required>
+                </div>
+                
+                <button type="button" id="payment-done-btn" class="action-btn">Payment Done</button>
+                
+                <div class="input-group" id="transaction-id-group">
+                    <label for="transaction-id">UPI Transaction ID</label>
+                    <input type="text" id="transaction-id" class="input-field" required>
+                </div>
+                
+                <button type="submit" id="confirm-purchase-btn" class="action-btn" disabled>Confirm Purchase</button>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- ⚙️ DOM ELEMENT SELECTION ---
+            const header = document.getElementById('header');
+            const toggleButtons = document.querySelectorAll('.toggle-btn');
+            const displayImage = document.getElementById('display-image');
+            const quantityInput = document.getElementById('quantity-input');
+            const priceDisplay = document.getElementById('price-display');
+            const purchaseBtn = document.getElementById('purchase-btn');
+            const modal = document.getElementById('purchase-modal');
+            const closeModalBtn = document.querySelector('.close-btn');
+            const qrCodeContainer = document.getElementById('qrcode');
+            const purchaseForm = document.getElementById('purchase-form');
+            const paymentDoneBtn = document.getElementById('payment-done-btn');
+            const transactionIdGroup = document.getElementById('transaction-id-group');
+            const confirmPurchaseBtn = document.getElementById('confirm-purchase-btn');
+
+            // --- 🖼️ IMAGE URLS ---
+            const imageUrls = {
+                'Red Token': 'https://ik.imagekit.io/silentgamers/SILENT_20251009_102511_0002.png?updatedAt=1759985846610&ik-s=070080d364708ce729439090817a1cba4ac31098',
+                'Power Coin': 'https://ik.imagekit.io/silentgamers/SILENT_20251009_102642_0003.png?updatedAt=1759985846702&ik-s=2551bf425226e14b3e9a5c01854b95f811e21b24'
+            };
+            
+            // --- 📦 STATE MANAGEMENT ---
+            let selectedType = 'Red Token';
+            let quantity = 0;
+            let totalPrice = 0;
+            
+            // --- 📜 HEADER SCROLL EFFECT ---
+            window.onscroll = () => {
+                if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            };
+            
+            // --- 🔄 TOGGLE LOGIC ---
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    toggleButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    selectedType = button.dataset.type;
+                    
+                    displayImage.style.opacity = 0;
+                    setTimeout(() => {
+                        displayImage.src = imageUrls[selectedType];
+                        displayImage.alt = selectedType;
+                        displayImage.style.opacity = 1;
+                    }, 300);
+                });
+            });
+
+            // --- 🔢 QUANTITY & PRICE LOGIC ---
+            quantityInput.addEventListener('input', () => {
+                let value = parseInt(quantityInput.value, 10);
+                if (isNaN(value) || value < 0) value = 0;
+
+                // Enforce range: 50-5000
+                if (value > 5000) {
+                    value = 5000;
+                    quantityInput.value = 5000;
+                }
+                
+                quantity = value;
+                totalPrice = value; // 1 quantity = 1 Rupee
+                priceDisplay.value = `₹${totalPrice.toLocaleString('en-IN')}`;
+            });
+            
+            // --- 💰 MODAL LOGIC ---
+            purchaseBtn.addEventListener('click', () => {
+                // Validate quantity before opening modal
+                if (quantity < 50 || quantity > 5000) {
+                    alert('Please enter a quantity between 50 and 5000.');
+                    return;
+                }
+                
+                // Generate QR Code
+                qrCodeContainer.innerHTML = ''; // Clear previous QR
+                const upiURI = `upi://pay?pa=aakarsh5@ptyes&pn=Silent%20Gamers&am=${totalPrice}.00&cu=INR`;
+                new QRCode(qrCodeContainer, {
+                    text: upiURI,
+                    width: 200,
+                    height: 200,
+                });
+                
+                modal.style.display = 'block';
+            });
+
+            closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // --- 💳 PAYMENT FLOW LOGIC ---
+            paymentDoneBtn.addEventListener('click', () => {
+                // Validate first set of fields
+                if (!document.getElementById('game-uid').value || !document.getElementById('mobile-number').value || !document.getElementById('upi-id').value) {
+                    alert('Please fill in Game UID, Mobile Number, and UPI ID first.');
+                    return;
+                }
+                paymentDoneBtn.style.display = 'none';
+                transactionIdGroup.style.display = 'block';
+                confirmPurchaseBtn.disabled = false;
+            });
+
+            // --- 📊 GOOGLE SHEET SUBMISSION ---
+            purchaseForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                confirmPurchaseBtn.disabled = true;
+                confirmPurchaseBtn.textContent = 'Submitting...';
+
+                const formData = {
+                    timestamp: new Date().toISOString(),
+                    gameUID: document.getElementById('game-uid').value,
+                    mobileNumber: document.getElementById('mobile-number').value,
+                    upiID: document.getElementById('upi-id').value,
+                    tokenCoinType: selectedType,
+                    quantity: quantity,
+                    totalAmount: totalPrice,
+                    transactionID: document.getElementById('transaction-id').value
+                };
+                
+                // ✅ YOUR SCRIPT URL IS NOW INTEGRATED HERE
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbyw85Fj2kj4xKHNJgM1nanfyRX_PytgxLlwyCJ2OE0tMm5KnVI_mIa4ca1AEKFt9C3a/exec';
+
+                fetch(scriptURL, { method: 'POST', body: JSON.stringify(formData), headers: {'Content-Type': 'application/json'} })
+                    .then(response => response.json()) // Parse the JSON response from Apps Script
+                    .then(data => {
+                        console.log('Success!', data);
+                        alert('Your purchase has been submitted successfully!');
+                        modal.style.display = 'none';
+                        purchaseForm.reset();
+                        quantityInput.value = '';
+                        priceDisplay.value = '₹0';
+                        // Reset form state
+                        paymentDoneBtn.style.display = 'block';
+                        transactionIdGroup.style.display = 'none';
+                        confirmPurchaseBtn.textContent = 'Confirm Purchase';
+                    })
+                    .catch(error => {
+                        console.error('Error!', error.message);
+                        alert('An error occurred. Please try again.');
+                        confirmPurchaseBtn.disabled = false;
+                        confirmPurchaseBtn.textContent = 'Confirm Purchase';
+                    });
+            });
+        });
+    </script>
+
+</body>
+</html>
