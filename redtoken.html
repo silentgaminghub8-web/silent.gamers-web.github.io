@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-g">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Silent Gamers Shop</title>
+    
+    <!-- Google Fonts for a modern, classic look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- QR Code Generation Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
     <style>
-        /* --- THEME & COLOR PALETTE --- */
+        /* --- THEME & VARIABLES --- */
         :root {
-            --bg-color: #1a1a1a; /* Dark Grey */
-            --black: #000000;
+            --black: #0a0a0a;
+            --z-grey: #222222;
+            --white: #f0f0f0;
             --orange: #ff6600;
             --gold: #ffd700;
             --yellow: #ffff00;
-            --grey: #2c2c2e;
-            --white: #ffffff;
-            --text-color: #f0f0f0;
-            --glass-bg: rgba(44, 44, 46, 0.6); /* Z Grey with transparency */
+            --glass-bg: rgba(34, 34, 34, 0.6);
+            --font-family: 'Rajdhani', sans-serif;
         }
 
-        /* --- GENERAL STYLES & RESET --- */
+        /* --- BASE STYLES & RESETS --- */
         * {
             margin: 0;
             padding: 0;
@@ -34,206 +38,205 @@
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://img.freepik.com/free-vector/dark-hexagonal-background-with-gradient-color_79603-1409.jpg');
+            font-family: var(--font-family);
+            background-color: var(--black);
+            color: var(--white);
+            background-image: linear-gradient(rgba(10, 10, 10, 0.9), rgba(10, 10, 10, 1)), url('https://img.freepik.com/free-vector/dark-hexagonal-background-with-gradient-color_79603-1409.jpg');
             background-size: cover;
             background-attachment: fixed;
             overflow-x: hidden;
         }
 
-        /* --- HEADER STYLES --- */
+        /* --- UTILITY CLASSES --- */
+        .liquid-glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* --- HEADER --- */
         .sticky-header {
             position: sticky;
             top: 0;
-            left: 0;
             width: 100%;
+            z-index: 1000;
+            padding: 10px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 15px;
-            z-index: 1000;
-            /* Liquid Glass Effect */
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: blur(12px);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
         }
 
-        .logo-container img {
+        .sticky-header .logo img {
             height: 45px;
             width: auto;
-            transition: transform 0.3s ease;
-        }
-        .logo-container img:hover {
-            transform: scale(1.1);
+            animation: fadeIn 1s ease-in-out;
         }
 
-        .branding {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
+        .sticky-header .branding {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--orange);
-            text-shadow: 0 0 5px var(--orange), 0 0 10px var(--black);
-            letter-spacing: 1px;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--gold);
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease-in-out;
         }
 
-        .profile-container a {
+        .sticky-header .profile-icon a {
             display: block;
         }
-        .profile-container img {
+
+        .sticky-header .profile-icon img {
             height: 35px;
             width: 35px;
             border-radius: 50%;
-            border: 2px solid var(--gold);
-            transition: box-shadow 0.3s ease;
+            border: 2px solid var(--orange);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .profile-container img:hover {
-            box-shadow: 0 0 15px var(--gold);
+
+        .sticky-header .profile-icon img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--orange);
         }
 
         /* --- MAIN CONTENT --- */
-        .main-container {
+        .shop-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 15px;
-            gap: 25px;
-        }
-
-        .dynamic-image-container {
-            width: 100%;
-            max-width: 400px;
-            aspect-ratio: 1 / 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .dynamic-image-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .shop-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
+            padding: 20px;
             text-align: center;
-            text-transform: uppercase;
-            color: var(--white);
-            text-shadow: 0 0 10px var(--orange), 0 0 20px var(--orange);
+            gap: 20px;
+        }
+
+        .main-gif {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 15px;
+            border: 2px solid var(--gold);
+            margin-top: 10px;
+            animation: zoomIn 0.8s ease-out;
+            transition: all 0.5s ease;
         }
         
-        .selection-bar {
-            width: 100%;
-            max-width: 500px;
-            height: 2px;
-            background-color: var(--black);
-            margin-bottom: 15px;
+        .shop-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px var(--orange), 0 0 20px var(--black);
+            animation: fadeIn 1s 0.5s backwards;
         }
 
-        .item-selector {
+        .selector-bar {
             display: flex;
             gap: 15px;
-            justify-content: center;
             width: 100%;
+            max-width: 400px;
+            animation: fadeInUp 1s 0.7s backwards;
         }
 
-        .select-btn {
-            font-family: 'Orbitron', sans-serif;
-            flex-grow: 1;
-            padding: 12px 20px;
-            background-color: var(--grey);
-            color: var(--text-color);
-            border: 2px solid var(--black);
-            border-radius: 8px;
+        .selector-btn {
+            flex: 1;
+            padding: 12px;
+            font-family: var(--font-family);
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--white);
+            background: var(--z-grey);
+            border: 2px solid var(--z-grey);
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            text-transform: uppercase;
             transition: all 0.3s ease;
         }
 
-        .select-btn.active {
-            background-color: var(--orange);
-            color: var(--black);
-            font-weight: 700;
+        .selector-btn.active {
+            background: var(--orange);
             border-color: var(--gold);
-            box-shadow: 0 0 15px rgba(255, 165, 0, 0.7);
-        }
-        .select-btn:not(.active):hover {
-            background-color: #3f3f3f;
+            color: var(--black);
+            box-shadow: 0 0 15px var(--orange);
+            transform: translateY(-3px);
         }
 
-        .purchase-box {
+        .form-box {
             width: 100%;
-            max-width: 500px;
+            max-width: 400px;
             padding: 25px;
-            border-radius: 15px;
             display: flex;
             flex-direction: column;
             gap: 20px;
-            /* Liquid Glass Effect */
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: blur(12px);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInUp 1s 0.9s backwards;
         }
         
         .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            position: relative;
         }
         
-        .input-group label {
-            font-size: 0.9rem;
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
             color: var(--gold);
-            text-transform: uppercase;
-            font-weight: 500;
+            text-align: left;
         }
 
-        .input-field, .price-display {
+        .quantity-input {
             width: 100%;
-            padding: 12px 15px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--grey);
+            padding: 12px;
+            font-size: 1.2rem;
+            font-family: var(--font-family);
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--z-grey);
             border-radius: 8px;
             color: var(--white);
-            font-size: 1.1rem;
-            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
-        .input-field:focus {
+        
+        .quantity-input:focus {
             outline: none;
             border-color: var(--orange);
             box-shadow: 0 0 10px var(--orange);
         }
-        .price-display {
-            color: var(--yellow);
+
+        .price-display-box {
+            width: 100%;
+            padding: 15px;
+            font-size: 2rem;
             font-weight: 700;
-            user-select: none;
+            background: transparent;
+            border: 2px solid var(--black);
+            color: var(--yellow);
+            text-align: center;
+            border-radius: 8px;
         }
 
         .purchase-btn {
+            width: 100%;
             padding: 15px;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             font-weight: 700;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            font-family: 'Orbitron', sans-serif;
             color: var(--black);
-            background-color: var(--gold);
+            background: var(--gold);
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
-            z-index: 1;
         }
+
+        .purchase-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px var(--gold);
+        }
+
         .purchase-btn::before {
             content: '';
             position: absolute;
@@ -241,68 +244,44 @@
             left: 50%;
             width: 0;
             height: 0;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             transform: translate(-50%, -50%);
-            transition: width 0.4s, height 0.4s;
-            z-index: -1;
+            transition: width 0.5s ease, height 0.5s ease;
         }
+        
         .purchase-btn:hover::before {
-            width: 250%;
-            height: 250%;
-        }
-        .purchase-btn:hover {
-            box-shadow: 0 0 20px var(--gold);
-            animation: glow-animation 1.5s infinite alternate;
+            width: 300px;
+            height: 300px;
         }
 
-        @keyframes glow-animation {
-            from { box-shadow: 0 0 10px var(--gold); }
-            to { box-shadow: 0 0 25px var(--yellow); }
-        }
-
-        /* --- POPUP MODAL STYLES --- */
+        /* --- MODAL / POP-UP --- */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            display: none; /* Hidden by default */
+            background: rgba(0, 0, 0, 0.85);
+            display: none; /* Initially hidden */
             justify-content: center;
             align-items: center;
-            padding: 15px;
             z-index: 2000;
             opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+            transition: opacity 0.4s ease;
         }
 
         .modal-overlay.show {
             display: flex;
             opacity: 1;
         }
-        
+
         .modal-content {
-            position: relative;
-            width: 100%;
+            width: 90%;
             max-width: 400px;
             padding: 25px;
-            border-radius: 15px;
-            /* Liquid Glass Effect */
-            background: var(--glass-bg);
-            -webkit-backdrop-filter: blur(15px);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            transform: scale(0.9);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .modal-overlay.show .modal-content {
-            transform: scale(1);
+            position: relative;
+            animation: slideInUp 0.5s ease-out;
         }
 
         .modal-close-btn {
@@ -311,338 +290,312 @@
             right: 15px;
             font-size: 2rem;
             color: var(--white);
+            background: none;
+            border: none;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            transition: color 0.3s, transform 0.3s;
         }
+        
         .modal-close-btn:hover {
             color: var(--orange);
             transform: rotate(90deg);
         }
 
-        #qrcode-container {
+        #qr-code {
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: white;
             padding: 15px;
+            background: white;
             border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        #qrcode-container canvas {
-            width: 100% !important;
-            height: auto !important;
+            margin-bottom: 20px;
+            border: 5px solid var(--gold);
         }
         
-        .modal-info {
-            text-align: center;
-            font-size: 1.1rem;
-            color: var(--yellow);
-        }
-        .modal-info span {
-            font-weight: bold;
-            color: var(--orange);
+        .modal-form .input-group {
+            margin-bottom: 15px;
         }
 
-        /* Hide number input spinners for a cleaner look */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+        .modal-form .form-label {
+            color: var(--white);
         }
-        input[type=number] {
-            -moz-appearance: textfield;
+        
+        .modal-form .form-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-family: var(--font-family);
+            background: var(--z-grey);
+            border: 1px solid var(--black);
+            border-radius: 8px;
+            color: var(--white);
         }
+        
+        .modal-form .form-input:focus {
+            outline: none;
+            border-color: var(--orange);
+        }
+        
+        .modal-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--black);
+            background: var(--orange);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .modal-btn:hover {
+            background: var(--gold);
+            transform: scale(1.02);
+        }
+
+        #transaction-id-step {
+            display: none; /* Hidden by default */
+        }
+        
+        /* --- ANIMATIONS --- */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideInUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
     </style>
 </head>
 <body>
 
-    <!-- STICKY HEADER -->
-    <header class="sticky-header">
-        <div class="logo-container">
+    <!-- ======================= HEADER ======================= -->
+    <header class="sticky-header liquid-glass">
+        <div class="logo">
             <img src="https://ik.imagekit.io/silentgamers/Picsart_25-09-22_00-09-34-964.png?updatedAt=1758480146212&ik-s=4f744f417100daea8710c3389638e583c2987985" alt="Silent Gamers Logo">
         </div>
-        <div class="branding">SILENT GAMERS</div>
-        <div class="profile-container">
+        <div class="branding">
+            SILENT GAMERS
+        </div>
+        <div class="profile-icon">
             <a href="https://silentgaminghub8-web.github.io/silent.gamers-web.github.io/userdashboard.html">
-                <img src="https://img.icons8.com/fluency/96/user-male-circle--v1.png" alt="User Profile">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/005/545/335/small/user-sign-icon-person-symbol-human-avatar-isolated-on-white-backogrund-vector.jpg" alt="User Profile">
             </a>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-container">
-        <div class="dynamic-image-container">
-            <img id="dynamicImage" src="https://ik.imagekit.io/silentgamers/SILENT_20251009_101656_0001.gif?updatedAt=1759985285381&ik-s=3b5fbfe6a0af75ddda5fce07ff461221707bb628" alt="Featured Item">
-        </div>
-
+    <!-- ======================= MAIN SHOP CONTENT ======================= -->
+    <main class="shop-container">
+        
+        <img id="main-image" class="main-gif" src="https://ik.imagekit.io/silentgamers/SILENT_20251009_101656_0001.gif?updatedAt=1759985285381&ik-s=3b5fbfe6a0af75ddda5fce07ff461221707bb628" alt="Featured Item">
+        
         <h1 class="shop-title">silentgamers shop</h1>
 
-        <div class="item-selector">
-            <button class="select-btn" id="selectRedToken">Red Token</button>
-            <button class="select-btn" id="selectPowerCoin">Power Coin</button>
+        <div class="selector-bar">
+            <button id="red-token-btn" class="selector-btn active">Red Token</button>
+            <button id="power-coin-btn" class="selector-btn">Power Coin</button>
         </div>
 
-        <div class="selection-bar"></div>
-
-        <div class="purchase-box">
+        <div class="form-box liquid-glass">
             <div class="input-group">
-                <label for="quantity">Quantity (<span id="selectedItemName">Select an item</span>)</label>
-                <input type="number" id="quantity" class="input-field" placeholder="Enter amount (50 - 5000)" min="50" max="5000">
+                <label for="quantity-input" class="form-label">Quantity (50 - 5000)</label>
+                <input type="number" id="quantity-input" class="quantity-input" min="50" max="5000" value="50">
             </div>
 
             <div class="input-group">
-                <label>Total Price</label>
-                <div id="price" class="price-display">₹ 0</div>
+                 <label class="form-label">Price (INR)</label>
+                <div id="price-display" class="price-display-box solid black">₹50</div>
             </div>
 
-            <button class="purchase-btn" id="purchaseButton">Purchase</button>
+            <button id="purchase-btn" class="purchase-btn">Purchase</button>
         </div>
+
     </main>
 
-    <!-- POPUP MODAL -->
-    <div class="modal-overlay" id="popupModal">
-        <div class="modal-content">
-            <span class="modal-close-btn" id="closeModalBtn">&times;</span>
+    <!-- ======================= MODAL (POP-UP) ======================= -->
+    <div id="purchase-modal" class="modal-overlay">
+        <div class="modal-content liquid-glass">
+            <button id="modal-close-btn" class="modal-close-btn">&times;</button>
             
-            <!-- Payment Step 1 -->
-            <div id="paymentStep1">
-                <div class="modal-info">Scan to pay <span>₹<span id="qrAmount">0</span></span></div>
-                <div id="qrcode-container">
-                    <div id="qrcode"></div>
-                </div>
-                
-                <form id="paymentForm">
+            <div id="payment-step">
+                <div id="qr-code"></div>
+                <form id="details-form" class="modal-form" onsubmit="return false;">
                     <div class="input-group">
-                        <label for="gameUID">Game UID</label>
-                        <input type="number" id="gameUID" class="input-field" placeholder="Enter your Game UID" required>
+                        <label for="game-uid" class="form-label">Game UID</label>
+                        <input type="text" id="game-uid" class="form-input" required placeholder="Enter your Game User ID">
                     </div>
                     <div class="input-group">
-                        <label for="mobileNumber">Mobile Number</label>
-                        <input type="tel" id="mobileNumber" class="input-field" placeholder="Enter your mobile number" required>
+                        <label for="mobile-number" class="form-label">Mobile Number</label>
+                        <input type="tel" id="mobile-number" class="form-input" required placeholder="Enter your contact number">
                     </div>
                     <div class="input-group">
-                        <label for="userUPI">Your UPI ID (For verification)</label>
-                        <input type="text" id="userUPI" class="input-field" placeholder="your-upi@oksbi" required>
+                        <label for="upi-id" class="form-label">Your UPI ID (for refund, if any)</label>
+                        <input type="text" id="upi-id" class="form-input" required placeholder="yourname@bank">
                     </div>
-                    <button type="button" class="purchase-btn" id="paymentDoneBtn">Payment Done</button>
+                    <button id="payment-done-btn" type="button" class="modal-btn">Payment Done</button>
                 </form>
             </div>
 
-            <!-- Payment Step 2 -->
-            <div id="paymentStep2" style="display: none;">
-                <div class="input-group">
-                    <label for="transactionID">UPI Transaction ID</label>
-                    <input type="text" id="transactionID" class="input-field" placeholder="Enter 12-digit UTR/Ref ID" required>
-                </div>
-                <button type="button" class="purchase-btn" id="finalSubmitBtn">Done</button>
+            <div id="transaction-id-step">
+                <form id="transaction-form" class="modal-form" onsubmit="return false;">
+                     <div class="input-group">
+                        <label for="transaction-id" class="form-label">UPI Transaction ID</label>
+                        <input type="text" id="transaction-id" class="form-input" required placeholder="Enter the 12-digit UTR/Ref ID">
+                    </div>
+                    <button id="final-done-btn" type="button" class="modal-btn">Done</button>
+                </form>
             </div>
 
-            <!-- Success/Loading Message -->
-            <div id="loadingMessage" style="display: none; text-align:center;">
-                <p>Submitting your order... Please wait.</p>
-            </div>
-            <div id="successMessage" style="display: none; text-align:center; color: var(--gold);">
-                <h3>Order Submitted!</h3>
-                <p>Your order has been received. Please allow some time for processing.</p>
-            </div>
         </div>
     </div>
 
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- CONFIGURATION ---
-            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqG29WrVBGIu05i8CyauW3XFoVHc-QmvM2Z_pVvjsNE4mR-76mUNlSGjthfOpH2iLU/exec'; // <-- IMPORTANT: PASTE YOUR SCRIPT URL HERE
-            const UPI_ID = 'aakarsh5@ptyes';
-            const UPI_NAME = 'Silent Gamers';
-
-            // --- IMAGE URLS ---
-            const images = {
-                default: 'https://ik.imagekit.io/silentgamers/SILENT_20251009_101656_0001.gif?updatedAt=1759985285381&ik-s=3b5fbfe6a0af75ddda5fce07ff461221707bb628',
-                redToken: 'https://ik.imagekit.io/silentgamers/SILENT_20251009_102511_0002.png?updatedAt=1759985846610&ik-s=070080d364708ce729439090817a1cba4ac31098',
-                powerCoin: 'https://ik.imagekit.io/silentgamers/SILENT_20251009_102642_0003.png?updatedAt=1759985846702&ik-s=2551bf425226e14b3e9a5c01854b95f811e21b24'
-            };
-
             // --- DOM ELEMENTS ---
-            const dynamicImage = document.getElementById('dynamicImage');
-            const selectRedTokenBtn = document.getElementById('selectRedToken');
-            const selectPowerCoinBtn = document.getElementById('selectPowerCoin');
-            const quantityInput = document.getElementById('quantity');
-            const priceDisplay = document.getElementById('price');
-            const selectedItemName = document.getElementById('selectedItemName');
-            const purchaseButton = document.getElementById('purchaseButton');
+            const mainImage = document.getElementById('main-image');
+            const redTokenBtn = document.getElementById('red-token-btn');
+            const powerCoinBtn = document.getElementById('power-coin-btn');
+            const quantityInput = document.getElementById('quantity-input');
+            const priceDisplay = document.getElementById('price-display');
+            const purchaseBtn = document.getElementById('purchase-btn');
+            const modal = document.getElementById('purchase-modal');
+            const closeModalBtn = document.getElementById('modal-close-btn');
+            const qrCodeContainer = document.getElementById('qr-code');
+            const paymentDoneBtn = document.getElementById('payment-done-btn');
+            const finalDoneBtn = document.getElementById('final-done-btn');
+            const paymentStep = document.getElementById('payment-step');
+            const transactionIdStep = document.getElementById('transaction-id-step');
             
-            // Modal elements
-            const modal = document.getElementById('popupModal');
-            const closeModalBtn = document.getElementById('closeModalBtn');
-            const qrAmount = document.getElementById('qrAmount');
-            const qrcodeContainer = document.getElementById('qrcode');
-            const paymentStep1 = document.getElementById('paymentStep1');
-            const paymentStep2 = document.getElementById('paymentStep2');
-            const paymentDoneBtn = document.getElementById('paymentDoneBtn');
-            const finalSubmitBtn = document.getElementById('finalSubmitBtn');
-            const loadingMessage = document.getElementById('loadingMessage');
-            const successMessage = document.getElementById('successMessage');
+            // --- STATE & DATA ---
+            let currentSelection = 'Red Token';
+            const images = {
+                'Red Token': 'https://ik.imagekit.io/silentgamers/SILENT_20251009_102511_0002.png?updatedAt=1759985846610&ik-s=070080d364708ce729439090817a1cba4ac31098',
+                'Power Coin': 'https://ik.imagekit.io/silentgamers/SILENT_20251009_102642_0003.png?updatedAt=1759985846702&ik-s=2551bf425226e14b3e9a5c01854b95f811e21b24'
+            };
+            const upiId = 'aakarsh5@ptyes';
+            const payeeName = 'Silent Gamers';
+            const myWhatsAppNumber = '917037843807'; // India country code + 10-digit number
 
-            // --- STATE ---
-            let selectedItem = null;
-            let currentQuantity = 0;
             let qrCodeInstance = null;
-            
+
             // --- FUNCTIONS ---
-            function updateSelection(item, itemName, imageSrc) {
-                selectedItem = item;
-                dynamicImage.style.opacity = 0;
-                setTimeout(() => {
-                    dynamicImage.src = imageSrc;
-                    dynamicImage.style.opacity = 1;
-                }, 300);
-
-                selectedItemName.textContent = itemName;
+            
+            const updateSelection = (selection, button) => {
+                currentSelection = selection;
+                mainImage.src = images[selection];
+                redTokenBtn.classList.remove('active');
+                powerCoinBtn.classList.remove('active');
+                button.classList.add('active');
+            };
+            
+            const updatePrice = () => {
+                let quantity = parseInt(quantityInput.value);
+                if (isNaN(quantity) || quantity < 50) {
+                    quantity = 50;
+                }
+                if (quantity > 5000) {
+                    quantity = 5000;
+                }
+                quantityInput.value = quantity;
+                priceDisplay.textContent = `₹${quantity}`;
+            };
+            
+            const generateQrCode = (amount) => {
+                qrCodeContainer.innerHTML = '';
+                const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${amount}.00&cu=INR&tn=Purchase of ${amount} ${currentSelection}`;
                 
-                if(item === 'red_token') {
-                    selectRedTokenBtn.classList.add('active');
-                    selectPowerCoinBtn.classList.remove('active');
-                } else {
-                    selectPowerCoinBtn.classList.add('active');
-                    selectRedTokenBtn.classList.remove('active');
-                }
-            }
-
-            function updatePrice() {
-                let value = parseInt(quantityInput.value, 10);
-                if (isNaN(value) || value < 50) {
-                    value = 0;
-                }
-                if (value > 5000) {
-                    value = 5000;
-                    quantityInput.value = 5000;
-                }
-                currentQuantity = value;
-                priceDisplay.textContent = `₹ ${currentQuantity}`;
-            }
-
-            function generateQRCode(amount) {
-                if (qrCodeInstance) {
-                    qrCodeInstance.clear();
-                    qrcodeContainer.innerHTML = '';
-                }
-                const upiString = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${amount}.00&cu=INR`;
-                qrCodeInstance = new QRCode(qrcodeContainer, {
-                    text: upiString,
+                qrCodeInstance = new QRCode(qrCodeContainer, {
+                    text: upiUrl,
                     width: 200,
                     height: 200,
                     colorDark: "#000000",
                     colorLight: "#ffffff",
                     correctLevel: QRCode.CorrectLevel.H
                 });
-            }
+            };
             
-            function showModal() {
-                modal.classList.add('show');
-            }
-
-            function hideModal() {
-                modal.classList.remove('show');
-                // Reset modal state
-                setTimeout(() => {
-                    paymentStep1.style.display = 'block';
-                    paymentStep2.style.display = 'none';
-                    loadingMessage.style.display = 'none';
-                    successMessage.style.display = 'none';
-                    document.getElementById('paymentForm').reset();
-                    document.getElementById('transactionID').value = '';
-                }, 300); // Wait for fade out animation
-            }
-
-            // --- EVENT LISTENERS ---
-            selectRedTokenBtn.addEventListener('click', () => {
-                updateSelection('red_token', 'Red Token', images.redToken);
-            });
-
-            selectPowerCoinBtn.addEventListener('click', () => {
-                updateSelection('power_coin', 'Power Coin', images.powerCoin);
-            });
-
-            quantityInput.addEventListener('input', updatePrice);
-
-            purchaseButton.addEventListener('click', () => {
-                if (!selectedItem) {
-                    alert('Please select an item first (Red Token or Power Coin).');
-                    return;
-                }
-                if (currentQuantity < 50 || currentQuantity > 5000) {
+            const openModal = () => {
+                const amount = parseInt(quantityInput.value);
+                if (amount >= 50 && amount <= 5000) {
+                    generateQrCode(amount);
+                    paymentStep.style.display = 'block';
+                    transactionIdStep.style.display = 'none';
+                    modal.classList.add('show');
+                } else {
                     alert('Please enter a quantity between 50 and 5000.');
+                }
+            };
+            
+            const closeModal = () => {
+                modal.classList.remove('show');
+            };
+
+            const showTransactionStep = () => {
+                const gameUid = document.getElementById('game-uid').value;
+                const mobile = document.getElementById('mobile-number').value;
+                const userUpi = document.getElementById('upi-id').value;
+                if (!gameUid || !mobile || !userUpi) {
+                    alert('Please fill all the details before proceeding.');
                     return;
                 }
-                
-                qrAmount.textContent = currentQuantity;
-                generateQRCode(currentQuantity);
-                showModal();
-            });
+                paymentStep.style.display = 'none';
+                transactionIdStep.style.display = 'block';
+            };
 
-            closeModalBtn.addEventListener('click', hideModal);
-            modal.addEventListener('click', (e) => {
-                if(e.target === modal) hideModal();
-            });
+            // !--- THIS IS THE UPDATED FUNCTION ---!
+            const redirectToWhatsApp = () => {
+                const quantity = quantityInput.value;
+                const gameUid = document.getElementById('game-uid').value;
+                const mobile = document.getElementById('mobile-number').value;
+                const userUpi = document.getElementById('upi-id').value;
+                const transactionId = document.getElementById('transaction-id').value;
 
-            paymentDoneBtn.addEventListener('click', () => {
-                const gameUID = document.getElementById('gameUID').value;
-                const mobileNumber = document.getElementById('mobileNumber').value;
-                const userUPI = document.getElementById('userUPI').value;
-
-                if (!gameUID || !mobileNumber || !userUPI) {
-                    alert('Please fill in all the details before proceeding.');
-                    return;
-                }
-                
-                paymentStep1.style.display = 'none';
-                paymentStep2.style.display = 'block';
-            });
-
-            finalSubmitBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-
-                const transactionID = document.getElementById('transactionID').value;
-                if (!transactionID) {
+                if (!transactionId) {
                     alert('Please enter the UPI Transaction ID.');
                     return;
                 }
+                
+                // Construct the message
+                const message = `
+*--- New Order from Silent Gamers Shop ---*
 
-                paymentStep2.style.display = 'none';
-                loadingMessage.style.display = 'block';
-                finalSubmitBtn.disabled = true;
+*Item:* ${currentSelection}
+*Quantity/Price:* ${quantity} / ₹${quantity}
+*Game UID:* ${gameUid}
+*Mobile Number:* ${mobile}
+*User UPI ID:* ${userUpi}
+*Transaction ID:* ${transactionId}
 
-                const formData = new FormData();
-                formData.append('SelectedItem', selectedItem === 'red_token' ? 'Red Token' : 'Power Coin');
-                formData.append('Quantity', currentQuantity);
-                formData.append('GameUID', document.getElementById('gameUID').value);
-                formData.append('MobileNumber', document.getElementById('mobileNumber').value);
-                formData.append('UserUPI', document.getElementById('userUPI').value);
-                formData.append('TransactionID', transactionID);
+Please process this order.
+                `;
 
-                fetch(SCRIPT_URL, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.result === 'success') {
-                        loadingMessage.style.display = 'none';
-                        successMessage.style.display = 'block';
-                        setTimeout(hideModal, 4000); // Close modal after 4 seconds
-                    } else {
-                        throw new Error(data.error || 'Unknown error');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error!', error);
-                    loadingMessage.innerHTML = `<p style="color:red;">Submission Failed. Please try again or contact support.</p>`;
-                })
-                .finally(() => {
-                    finalSubmitBtn.disabled = false;
-                });
+                const encodedMessage = encodeURIComponent(message.trim());
+                // Use the api.whatsapp.com URL for better cross-device compatibility
+                const whatsappUrl = `https://api.whatsapp.com/send?phone=${myWhatsAppNumber}&text=${encodedMessage}`;
+                
+                // Open in a new tab to avoid issues with browser blocking
+                window.open(whatsappUrl, '_blank');
+            };
+
+            // --- EVENT LISTENERS ---
+            redTokenBtn.addEventListener('click', () => updateSelection('Red Token', redTokenBtn));
+            powerCoinBtn.addEventListener('click', () => updateSelection('Power Coin', powerCoinBtn));
+            
+            quantityInput.addEventListener('input', updatePrice);
+            quantityInput.addEventListener('change', updatePrice);
+            
+            purchaseBtn.addEventListener('click', openModal);
+            closeModalBtn.addEventListener('click', closeModal);
+            
+            paymentDoneBtn.addEventListener('click', showTransactionStep);
+            finalDoneBtn.addEventListener('click', redirectToWhatsApp);
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
             });
         });
     </script>
