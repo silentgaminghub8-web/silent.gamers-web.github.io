@@ -1,566 +1,649 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Loading</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-g">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silent Gamers Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
     <style>
+        /* --- THEME & COLOR PALETTE --- */
+        :root {
+            --bg-color: #1a1a1a; /* Dark Grey */
+            --black: #000000;
+            --orange: #ff6600;
+            --gold: #ffd700;
+            --yellow: #ffff00;
+            --grey: #2c2c2e;
+            --white: #ffffff;
+            --text-color: #f0f0f0;
+            --glass-bg: rgba(44, 44, 46, 0.6); /* Z Grey with transparency */
+        }
+
+        /* --- GENERAL STYLES & RESET --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #000;
-            color: #fff;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            touch-action: pan-x pan-y;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-            -webkit-text-size-adjust: none;
-        }
-        
+
         html {
-            -webkit-text-size-adjust: 100%;
-            touch-action: pan-x pan-y;
+            scroll-behavior: smooth;
         }
-        
-        #loading-screen {
-            position: fixed;
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://img.freepik.com/free-vector/dark-hexagonal-background-with-gradient-color_79603-1409.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER STYLES --- */
+        .sticky-header {
+            position: sticky;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 140, 0, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.03) 0%, transparent 50%),
-                #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .logo-container {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
-        
-        .logo-with-animation {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            margin: 0 auto 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .logo-background {
-            position: absolute;
-            width: 140px;
-            height: 140px;
-            background-color: rgba(255, 140, 0, 0.1);
-            border-radius: 50%;
-            box-shadow: 
-                -15px -15px 15px rgba(255, 102, 0, 0.3), 
-                15px -15px 15px rgba(255, 145, 0, 0.3), 
-                15px 15px 15px rgba(255, 85, 0, 0.3), 
-                -15px 15px 15px rgba(255, 166, 0, 0.3),
-                -15px 0 15px rgba(255, 102, 0, 0.3), 
-                15px 0 15px rgba(255, 204, 0, 0.3);
-            animation: rotate 3s infinite ease-in-out;
-            transform: rotate(0) scale(0.8);
-        }
-        
-        .logo-image {
-            position: relative;
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            object-fit: cover;
-            z-index: 2;
-            animation: logoPulse 3s infinite ease-in-out;
-            box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-        }
-        
-        .logo-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 280px;
-            height: 120px;
-            background: radial-gradient(ellipse at center, rgba(255, 140, 0, 0.15) 0%, transparent 70%);
-            filter: blur(20px);
-            z-index: -1;
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-        
-        .logo-text {
-            font-size: 3.2rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, #FF8C00 0%, #FFD700 50%, #FF8C00 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-            position: relative;
-            animation: textShimmer 4s ease-in-out infinite;
-            background-size: 200% auto;
-        }
-        
-        .logo-subtitle {
-            font-size: 0.9rem;
-            letter-spacing: 6px;
-            color: rgba(255, 165, 0, 0.8);
-            text-transform: uppercase;
-            font-weight: 300;
-            animation: fadeInOut 2s ease-in-out infinite;
-        }
-        
-        .loader-container {
-            margin-bottom: 40px;
-            position: relative;
-        }
-        
-        .loader {
-            width: 70px;
-            height: 70px;
-            position: relative;
-        }
-        
-        .loader-ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border: 2px solid transparent;
-            border-radius: 50%;
-            border-top: 2px solid #FF8C00;
-            animation: spin 1.8s linear infinite;
-        }
-        
-        .loader-ring:nth-child(2) {
-            width: 80%;
-            height: 80%;
-            top: 10%;
-            left: 10%;
-            border-top: 2px solid #FFD700;
-            animation: spin 1.2s linear infinite reverse;
-        }
-        
-        .loader-ring:nth-child(3) {
-            width: 60%;
-            height: 60%;
-            top: 20%;
-            left: 20%;
-            border-top: 2px solid #FFA500;
-            animation: spin 0.8s linear infinite;
-        }
-        
-        .loader-dot {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #FFD700;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px #FFD700;
-        }
-        
-        .progress-container {
-            width: 320px;
-            text-align: center;
-        }
-        
-        .progress-text {
-            font-size: 0.85rem;
-            color: rgba(255, 165, 0, 0.9);
-            margin-bottom: 12px;
-            letter-spacing: 2px;
-            font-weight: 400;
-            text-transform: uppercase;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 3px;
-            background: rgba(255, 140, 0, 0.15);
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 8px;
-            position: relative;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(to right, #FF8C00, #FFD700);
-            border-radius: 3px;
-            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-            animation: progressShine 2s ease-in-out infinite;
-        }
-        
-        .loading-stats {
             display: flex;
             justify-content: space-between;
-            width: 320px;
-            margin-top: 5px;
-            font-size: 0.75rem;
-            color: rgba(255, 165, 0, 0.7);
-            font-weight: 300;
+            align-items: center;
+            padding: 10px 15px;
+            z-index: 1000;
+            /* Liquid Glass Effect */
+            background: var(--glass-bg);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-container img {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+        .logo-container img:hover {
+            transform: scale(1.1);
+        }
+
+        .branding {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--orange);
+            text-shadow: 0 0 5px var(--orange), 0 0 10px var(--black);
+            letter-spacing: 1px;
+        }
+
+        .profile-container a {
+            display: block;
+        }
+        .profile-container img {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            transition: box-shadow 0.3s ease;
+        }
+        .profile-container img:hover {
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        /* --- MAIN CONTENT --- */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 15px;
+            gap: 25px;
+        }
+
+        .dynamic-image-container {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1 / 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dynamic-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .shop-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            text-transform: uppercase;
+            color: var(--white);
+            text-shadow: 0 0 10px var(--orange), 0 0 20px var(--orange);
         }
         
-        .loading-stats span {
-            opacity: 0.8;
+        .selection-bar {
+            width: 100%;
+            max-width: 500px;
+            height: 2px;
+            background-color: var(--black);
+            margin-bottom: 15px;
+        }
+
+        .item-selector {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .select-btn {
+            font-family: 'Orbitron', sans-serif;
+            flex-grow: 1;
+            padding: 12px 20px;
+            background-color: var(--grey);
+            color: var(--text-color);
+            border: 2px solid var(--black);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .select-btn.active {
+            background-color: var(--orange);
+            color: var(--black);
+            font-weight: 700;
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(255, 165, 0, 0.7);
+        }
+        .select-btn:not(.active):hover {
+            background-color: #3f3f3f;
+        }
+
+        .purchase-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            /* Liquid Glass Effect */
+            background: var(--glass-bg);
+            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        #preview-container {
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .input-group label {
+            font-size: 0.9rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .input-field, .price-display {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--grey);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1.1rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--orange);
+            box-shadow: 0 0 10px var(--orange);
+        }
+        .price-display {
+            color: var(--yellow);
+            font-weight: 700;
+            user-select: none;
+        }
+
+        .purchase-btn {
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--black);
+            background-color: var(--gold);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .purchase-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+            z-index: -1;
+        }
+        .purchase-btn:hover::before {
+            width: 250%;
+            height: 250%;
+        }
+        .purchase-btn:hover {
+            box-shadow: 0 0 20px var(--gold);
+            animation: glow-animation 1.5s infinite alternate;
+        }
+
+        @keyframes glow-animation {
+            from { box-shadow: 0 0 10px var(--gold); }
+            to { box-shadow: 0 0 25px var(--yellow); }
+        }
+
+        /* --- POPUP MODAL STYLES --- */
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            z-index: 2000;
             opacity: 0;
-            transition: opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
         }
         
-        #preview-frame {
+        .modal-content {
+            position: relative;
             width: 100%;
-            height: 100%;
-            border: none;
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 15px;
+            /* Liquid Glass Effect */
+            background: var(--glass-bg);
+            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transform: scale(0.9);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2rem;
+            color: var(--white);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .modal-close-btn:hover {
+            color: var(--orange);
+            transform: rotate(90deg);
+        }
+
+        #qrcode-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        #qrcode-container canvas {
+            width: 100% !important;
+            height: auto !important;
         }
         
-        /* Animations */
-        @keyframes rotate {
-            0% {
-                transform: rotate(360deg) scale(0.8);
-            }
-            50% {
-                transform: rotate(0) scale(1.1);
-            }
-            100% {
-                transform: rotate(360deg) scale(0.8);
-            }
+        .modal-info {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--yellow);
         }
-        
-        @keyframes logoPulse {
-            0%, 100% { 
-                transform: scale(1);
-                box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
-            }
-            50% { 
-                transform: scale(1.05);
-                box-shadow: 0 0 30px rgba(255, 215, 0, 0.7);
-            }
+        .modal-info span {
+            font-weight: bold;
+            color: var(--orange);
         }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        /* Hide number input spinners for a cleaner look */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
-        
-        @keyframes pulseGlow {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
+        input[type=number] {
+            -moz-appearance: textfield;
         }
-        
-        @keyframes textShimmer {
-            0%, 100% { background-position: -200% center; }
-            50% { background-position: 200% center; }
-        }
-        
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
-        }
-        
-        @keyframes progressShine {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-        
-        /* Staggered entrance animations */
-        .logo-with-animation {
-            animation: slideUpFade 1s cubic-bezier(0.23, 1, 0.32, 1) both;
-        }
-        
-        .logo-text {
-            animation: slideUpFade 1s cubic-bezier(0.23, 1, 0.32, 1) 0.3s both;
-        }
-        
-        .loader-container {
-            animation: slideUpFade 1s cubic-bezier(0.23, 1, 0.32, 1) 0.5s both;
-        }
-        
-        .progress-container {
-            animation: slideUpFade 1s cubic-bezier(0.23, 1, 0.32, 1) 0.7s both;
-        }
-        
-        @keyframes slideUpFade {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .logo-text {
-                font-size: 2.4rem;
-                letter-spacing: 3px;
-            }
-            
-            .logo-subtitle {
-                font-size: 0.8rem;
-                letter-spacing: 4px;
-            }
-            
-            .logo-with-animation {
-                width: 150px;
-                height: 150px;
-            }
-            
-            .logo-background {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .logo-image {
-                width: 90px;
-                height: 90px;
-            }
-            
-            .progress-container {
-                width: 280px;
-            }
-            
-            .loading-stats {
-                width: 280px;
-            }
-            
-            .logo-glow {
-                width: 220px;
-                height: 90px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .logo-text {
-                font-size: 2rem;
-            }
-            
-            .logo-with-animation {
-                width: 130px;
-                height: 130px;
-            }
-            
-            .logo-background {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .logo-image {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .progress-container {
-                width: 250px;
-            }
-            
-            .loading-stats {
-                width: 250px;
-            }
-        }
+
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loading-screen">
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
         <div class="logo-container">
-            <div class="logo-with-animation">
-                <div class="logo-background"></div>
-                <img src="https://ik.imagekit.io/silentgamers/Picsart_25-09-22_00-09-34-964.png?updatedAt=1758480146212&ik-s=4f744f417100daea8710c3389638e583c2987985" class="logo-image" alt="Silent Gamers Logo">
-            </div>
-            <div class="logo-glow"></div>
-            <div class="logo-text">SILENT GAMERS</div>
-            <div class="logo-subtitle">INITIALIZING</div>
+            <img src="https://ik.imagekit.io/silentgamers/Picsart_25-09-22_00-09-34-964.png?updatedAt=1758480146212&ik-s=4f744f417100daea8710c3389638e583c2987985" alt="Silent Gamers Logo">
         </div>
-        
-        <div class="loader-container">
-            <div class="loader">
-                <div class="loader-ring"></div>
-                <div class="loader-ring"></div>
-                <div class="loader-ring"></div>
-                <div class="loader-dot"></div>
-            </div>
+        <div class="branding">SILENT GAMERS</div>
+        <div class="profile-container">
+            <a href="https://silentgaminghub8-web.github.io/silent.gamers-web.github.io/userdashboard.html">
+                <img src="https://img.icons8.com/fluency/96/user-male-circle--v1.png" alt="User Profile">
+            </a>
         </div>
-        
-        <div class="progress-container">
-            <div class="progress-text">LOADING INTERFACE</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill"></div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
+        <div class="dynamic-image-container">
+            <img id="dynamicImage" src="https://ik.imagekit.io/silentgamers/SILENT_20251009_101656_0001.gif?updatedAt=1759985285381&ik-s=3b5fbfe6a0af75ddda5fce07ff461221707bb628" alt="Featured Item">
+        </div>
+
+        <h1 class="shop-title">silentgamers shop</h1>
+
+        <div class="item-selector">
+            <button class="select-btn" id="selectRedToken">Red Token</button>
+            <button class="select-btn" id="selectPowerCoin">Power Coin</button>
+        </div>
+
+        <div class="selection-bar"></div>
+
+        <div class="purchase-box">
+            <div class="input-group">
+                <label for="quantity">Quantity (<span id="selectedItemName">Select an item</span>)</label>
+                <input type="number" id="quantity" class="input-field" placeholder="Enter amount (50 - 5000)" min="50" max="5000">
             </div>
-            <div class="loading-stats">
-                <span id="loaded-percent">0%</span>
-                <span id="loading-status">Starting...</span>
-                <span id="time-remaining">--</span>
+
+            <div class="input-group">
+                <label>Total Price</label>
+                <div id="price" class="price-display">₹ 0</div>
+            </div>
+
+            <button class="purchase-btn" id="purchaseButton">Purchase</button>
+        </div>
+    </main>
+
+    <!-- POPUP MODAL -->
+    <div class="modal-overlay" id="popupModal">
+        <div class="modal-content">
+            <span class="modal-close-btn" id="closeModalBtn">&times;</span>
+            
+            <!-- Payment Step 1 -->
+            <div id="paymentStep1">
+                <div class="modal-info">Scan to pay <span>₹<span id="qrAmount">0</span></span></div>
+                <div id="qrcode-container">
+                    <div id="qrcode"></div>
+                </div>
+                
+                <form id="paymentForm">
+                    <div class="input-group">
+                        <label for="gameUID">Game UID</label>
+                        <input type="number" id="gameUID" class="input-field" placeholder="Enter your Game UID" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="tel" id="mobileNumber" class="input-field" placeholder="Enter your mobile number" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="userUPI">Your UPI ID (For verification)</label>
+                        <input type="text" id="userUPI" class="input-field" placeholder="your-upi@oksbi" required>
+                    </div>
+                    <button type="button" class="purchase-btn" id="paymentDoneBtn">Payment Done</button>
+                </form>
+            </div>
+
+            <!-- Payment Step 2 -->
+            <div id="paymentStep2" style="display: none;">
+                <div class="input-group">
+                    <label for="transactionID">UPI Transaction ID</label>
+                    <input type="text" id="transactionID" class="input-field" placeholder="Enter 12-digit UTR/Ref ID" required>
+                </div>
+                <button type="button" class="purchase-btn" id="finalSubmitBtn">Done</button>
+            </div>
+
+            <!-- Success/Loading Message -->
+            <div id="loadingMessage" style="display: none; text-align:center;">
+                <p>Submitting your order... Please wait.</p>
+            </div>
+            <div id="successMessage" style="display: none; text-align:center; color: var(--gold);">
+                <h3>Order Submitted!</h3>
+                <p>Your order has been received. Please allow some time for processing.</p>
             </div>
         </div>
     </div>
-    
-    <!-- Preview Container -->
-    <div id="preview-container">
-        <iframe id="preview-frame" src="https://script.google.com/macros/s/AKfycbzB7O3H2Z5x_lreZRdp9kuq6XfwJbzdrj-gx9GdZXXnxlwlz83Ia5nOikpif4N9CyP0/exec"></iframe>
-    </div>
-    
+
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingScreen = document.getElementById('loading-screen');
-            const previewContainer = document.getElementById('preview-container');
-            const progressFill = document.getElementById('progress-fill');
-            const loadedPercent = document.getElementById('loaded-percent');
-            const loadingStatus = document.getElementById('loading-status');
-            const timeRemaining = document.getElementById('time-remaining');
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- CONFIGURATION ---
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqG29WrVBGIu05i8CyauW3XFoVHc-QmvM2Z_pVvjsNE4mR-76mUNlSGjthfOpH2iLU/exec'; // <-- IMPORTANT: PASTE YOUR SCRIPT URL HERE
+            const UPI_ID = 'aakarsh5@ptyes';
+            const UPI_NAME = 'Silent Gamers';
+
+            // --- IMAGE URLS ---
+            const images = {
+                default: 'https://ik.imagekit.io/silentgamers/SILENT_20251009_101656_0001.gif?updatedAt=1759985285381&ik-s=3b5fbfe6a0af75ddda5fce07ff461221707bb628',
+                redToken: 'https://ik.imagekit.io/silentgamers/SILENT_20251009_102511_0002.png?updatedAt=1759985846610&ik-s=070080d364708ce729439090817a1cba4ac31098',
+                powerCoin: 'https://ik.imagekit.io/silentgamers/SILENT_20251009_102642_0003.png?updatedAt=1759985846702&ik-s=2551bf425226e14b3e9a5c01854b95f811e21b24'
+            };
+
+            // --- DOM ELEMENTS ---
+            const dynamicImage = document.getElementById('dynamicImage');
+            const selectRedTokenBtn = document.getElementById('selectRedToken');
+            const selectPowerCoinBtn = document.getElementById('selectPowerCoin');
+            const quantityInput = document.getElementById('quantity');
+            const priceDisplay = document.getElementById('price');
+            const selectedItemName = document.getElementById('selectedItemName');
+            const purchaseButton = document.getElementById('purchaseButton');
             
-            const statusMessages = [
-                "Initializing...",
-                "Loading assets...",
-                "Preparing interface...",
-                "Optimizing performance...",
-                "Finalizing..."
-            ];
+            // Modal elements
+            const modal = document.getElementById('popupModal');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const qrAmount = document.getElementById('qrAmount');
+            const qrcodeContainer = document.getElementById('qrcode');
+            const paymentStep1 = document.getElementById('paymentStep1');
+            const paymentStep2 = document.getElementById('paymentStep2');
+            const paymentDoneBtn = document.getElementById('paymentDoneBtn');
+            const finalSubmitBtn = document.getElementById('finalSubmitBtn');
+            const loadingMessage = document.getElementById('loadingMessage');
+            const successMessage = document.getElementById('successMessage');
+
+            // --- STATE ---
+            let selectedItem = null;
+            let currentQuantity = 0;
+            let qrCodeInstance = null;
             
-            let progress = 0;
-            let startTime = Date.now();
-            let lastUpdateTime = Date.now();
-            let statusIndex = 0;
-            
-            function updateProgress() {
-                const currentTime = Date.now();
-                const elapsed = (currentTime - startTime) / 1000;
+            // --- FUNCTIONS ---
+            function updateSelection(item, itemName, imageSrc) {
+                selectedItem = item;
+                dynamicImage.style.opacity = 0;
+                setTimeout(() => {
+                    dynamicImage.src = imageSrc;
+                    dynamicImage.style.opacity = 1;
+                }, 300);
+
+                selectedItemName.textContent = itemName;
                 
-                // Update status message based on progress
-                if (progress >= 20 && statusIndex === 0) {
-                    loadingStatus.textContent = statusMessages[1];
-                    statusIndex = 1;
-                } else if (progress >= 40 && statusIndex === 1) {
-                    loadingStatus.textContent = statusMessages[2];
-                    statusIndex = 2;
-                } else if (progress >= 60 && statusIndex === 2) {
-                    loadingStatus.textContent = statusMessages[3];
-                    statusIndex = 3;
-                } else if (progress >= 80 && statusIndex === 3) {
-                    loadingStatus.textContent = statusMessages[4];
-                    statusIndex = 4;
-                }
-                
-                // Update progress with realistic simulation
-                if (progress < 100) {
-                    // Simulate realistic loading curve
-                    let increment;
-                    if (progress < 20) {
-                        increment = 0.4; // Slow start
-                    } else if (progress < 60) {
-                        increment = 0.6 + Math.random() * 0.8; // Faster middle
-                    } else if (progress < 90) {
-                        increment = 0.3 + Math.random() * 0.4; // Slower before completion
-                    } else {
-                        increment = 0.1; // Very slow at the end
-                    }
-                    
-                    // Add occasional pauses for realism
-                    if (Math.random() > 0.97 && progress > 10 && progress < 95) {
-                        // Pause for a moment
-                    } else {
-                        progress += increment;
-                    }
-                    
-                    if (progress > 100) progress = 100;
-                    
-                    // Update progress bar and percentage
-                    progressFill.style.width = progress + '%';
-                    loadedPercent.textContent = Math.round(progress) + '%';
-                    
-                    // Calculate time remaining
-                    if (progress > 5) {
-                        const timePerPercent = elapsed / progress;
-                        const remainingTime = timePerPercent * (100 - progress);
-                        timeRemaining.textContent = formatTime(remainingTime);
-                    }
-                    
-                    requestAnimationFrame(updateProgress);
+                if(item === 'red_token') {
+                    selectRedTokenBtn.classList.add('active');
+                    selectPowerCoinBtn.classList.remove('active');
                 } else {
-                    // Loading complete
-                    setTimeout(() => {
-                        // Add completion flourish
-                        progressFill.style.transition = 'all 0.8s ease';
-                        progressFill.style.width = '100%';
-                        
-                        setTimeout(() => {
-                            loadingScreen.style.opacity = '0';
-                            loadingScreen.style.transition = 'opacity 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                            
-                            setTimeout(() => {
-                                loadingScreen.style.display = 'none';
-                                previewContainer.style.opacity = '1';
-                            }, 1200);
-                        }, 300);
-                    }, 500);
+                    selectPowerCoinBtn.classList.add('active');
+                    selectRedTokenBtn.classList.remove('active');
                 }
             }
-            
-            function formatTime(seconds) {
-                if (seconds < 10) return '< 10s';
-                if (seconds < 60) return Math.round(seconds) + 's';
-                const minutes = Math.round(seconds / 60);
-                return minutes + 'm';
+
+            function updatePrice() {
+                let value = parseInt(quantityInput.value, 10);
+                if (isNaN(value) || value < 50) {
+                    value = 0;
+                }
+                if (value > 5000) {
+                    value = 5000;
+                    quantityInput.value = 5000;
+                }
+                currentQuantity = value;
+                priceDisplay.textContent = `₹ ${currentQuantity}`;
+            }
+
+            function generateQRCode(amount) {
+                if (qrCodeInstance) {
+                    qrCodeInstance.clear();
+                    qrcodeContainer.innerHTML = '';
+                }
+                const upiString = `upi://pay?pa=${UPI_ID}&pn=${encodeURIComponent(UPI_NAME)}&am=${amount}.00&cu=INR`;
+                qrCodeInstance = new QRCode(qrcodeContainer, {
+                    text: upiString,
+                    width: 200,
+                    height: 200,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
             }
             
-            // Prevent zooming with viewport meta tag and additional CSS
-            document.addEventListener('gesturestart', function(e) {
-                e.preventDefault();
+            function showModal() {
+                modal.classList.add('show');
+            }
+
+            function hideModal() {
+                modal.classList.remove('show');
+                // Reset modal state
+                setTimeout(() => {
+                    paymentStep1.style.display = 'block';
+                    paymentStep2.style.display = 'none';
+                    loadingMessage.style.display = 'none';
+                    successMessage.style.display = 'none';
+                    document.getElementById('paymentForm').reset();
+                    document.getElementById('transactionID').value = '';
+                }, 300); // Wait for fade out animation
+            }
+
+            // --- EVENT LISTENERS ---
+            selectRedTokenBtn.addEventListener('click', () => {
+                updateSelection('red_token', 'Red Token', images.redToken);
             });
-            
-            document.addEventListener('touchmove', function(e) {
-                if (e.scale !== 1) {
-                    e.preventDefault();
+
+            selectPowerCoinBtn.addEventListener('click', () => {
+                updateSelection('power_coin', 'Power Coin', images.powerCoin);
+            });
+
+            quantityInput.addEventListener('input', updatePrice);
+
+            purchaseButton.addEventListener('click', () => {
+                if (!selectedItem) {
+                    alert('Please select an item first (Red Token or Power Coin).');
+                    return;
                 }
-            }, { passive: false });
-            
-            // Start loading animation after a brief delay
-            setTimeout(updateProgress, 800);
+                if (currentQuantity < 50 || currentQuantity > 5000) {
+                    alert('Please enter a quantity between 50 and 5000.');
+                    return;
+                }
+                
+                qrAmount.textContent = currentQuantity;
+                generateQRCode(currentQuantity);
+                showModal();
+            });
+
+            closeModalBtn.addEventListener('click', hideModal);
+            modal.addEventListener('click', (e) => {
+                if(e.target === modal) hideModal();
+            });
+
+            paymentDoneBtn.addEventListener('click', () => {
+                const gameUID = document.getElementById('gameUID').value;
+                const mobileNumber = document.getElementById('mobileNumber').value;
+                const userUPI = document.getElementById('userUPI').value;
+
+                if (!gameUID || !mobileNumber || !userUPI) {
+                    alert('Please fill in all the details before proceeding.');
+                    return;
+                }
+                
+                paymentStep1.style.display = 'none';
+                paymentStep2.style.display = 'block';
+            });
+
+            finalSubmitBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const transactionID = document.getElementById('transactionID').value;
+                if (!transactionID) {
+                    alert('Please enter the UPI Transaction ID.');
+                    return;
+                }
+
+                paymentStep2.style.display = 'none';
+                loadingMessage.style.display = 'block';
+                finalSubmitBtn.disabled = true;
+
+                const formData = new FormData();
+                formData.append('SelectedItem', selectedItem === 'red_token' ? 'Red Token' : 'Power Coin');
+                formData.append('Quantity', currentQuantity);
+                formData.append('GameUID', document.getElementById('gameUID').value);
+                formData.append('MobileNumber', document.getElementById('mobileNumber').value);
+                formData.append('UserUPI', document.getElementById('userUPI').value);
+                formData.append('TransactionID', transactionID);
+
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === 'success') {
+                        loadingMessage.style.display = 'none';
+                        successMessage.style.display = 'block';
+                        setTimeout(hideModal, 4000); // Close modal after 4 seconds
+                    } else {
+                        throw new Error(data.error || 'Unknown error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error!', error);
+                    loadingMessage.innerHTML = `<p style="color:red;">Submission Failed. Please try again or contact support.</p>`;
+                })
+                .finally(() => {
+                    finalSubmitBtn.disabled = false;
+                });
+            });
         });
     </script>
 </body>
